@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MycoSaxaul — To‘liq xarajat kalkulyatori</title>
+<style>
+:root{--bg:#eef2e9;--surface:#ffffff;--surface2:#f7f9f4;--ink:#1d3026;--muted:#718076;--line:#dce5d9;--green:#236746;--green2:#347e57;--mint:#e5f1e7;--sand:#f4ead7;--gold:#b8873c;--red:#a6422b;--shadow:0 12px 32px rgba(31,58,40,.075)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 8% 0%,#e2ebdc 0,transparent 34%),linear-gradient(145deg,#f3f5ef,#e9efe6);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;padding:30px 22px}
+.wrap{max-width:1320px;margin:auto}.hero{position:relative;overflow:hidden;padding:30px 34px 28px;border-radius:22px;background:linear-gradient(115deg,#173e2c 0%,#286747 58%,#57815a 100%);color:#fff;margin-bottom:20px;box-shadow:0 16px 34px rgba(27,67,44,.18)}.hero:after{content:"";position:absolute;width:300px;height:300px;right:-55px;top:-145px;border:1px solid #ffffff22;border-radius:50%;box-shadow:0 0 0 28px #ffffff0b,0 0 0 58px #ffffff08}.hero:before{content:"";position:absolute;width:190px;height:190px;right:115px;bottom:-145px;border:1px solid #ffffff20;border-radius:50%}.hero h1{position:relative;z-index:1;font-size:clamp(27px,4vw,39px);letter-spacing:-.8px;line-height:1.15;margin:0 0 10px}.hero p{position:relative;z-index:1;margin:0;color:#e1eee3;max-width:850px;font-size:14px}.hero:after,.hero:before{pointer-events:none}
+.notice{background:#fff7e8;border:1px solid #ecd9b3;padding:13px 17px;border-radius:13px;margin:0 0 20px;color:#735522;font-size:13px;box-shadow:0 3px 12px #75551a0a}
+.grid{display:grid;grid-template-columns:minmax(300px,.88fr) minmax(0,1.55fr);gap:20px;align-items:start}.grid>section:first-child{display:contents}.grid>section:first-child>.card:first-child{grid-column:1;grid-row:1}.grid>section:first-child>.card:nth-child(2){grid-column:2;grid-row:1}.grid>section:nth-child(2){grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px;align-items:start}.grid>section:nth-child(2)>.card:first-child{grid-column:1/-1}
+.card{background:var(--surface);border:1px solid #e1e8df;border-radius:18px;padding:21px;margin-bottom:20px;box-shadow:var(--shadow)}h2{font-size:17px;letter-spacing:-.2px;margin:0 0 14px;display:flex;align-items:center;gap:9px}h2:before{content:"";display:inline-block;width:5px;height:19px;border-radius:5px;background:var(--green2)}h3{font-size:14px;margin:17px 0 10px;color:var(--green)}
+.field{margin-bottom:13px}.field label{display:block;font-weight:650;font-size:12px;margin-bottom:5px;color:#3c5143}.field small{display:block;color:var(--muted);font-size:11px}input{width:100%;padding:10px 12px;border:1px solid #d7e0d5;border-radius:10px;font:inherit;font-size:14px;background:#f9fbf8;color:var(--ink);outline:none;transition:border .18s,box-shadow .18s,background .18s}input:focus{border-color:#5b9870;background:#fff;box-shadow:0 0 0 3px #347e571a}.row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.method-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.method{position:relative;border:1px solid #dfe8dd;border-radius:15px;padding:15px 15px 8px;background:linear-gradient(155deg,#fff 0%,#f8fbf7 100%);transition:transform .18s,border-color .18s,box-shadow .18s}.method:hover{transform:translateY(-2px);border-color:#b8d0ba;box-shadow:0 8px 20px #1d4a2c0c}.method h3{margin:0 0 13px;padding-bottom:10px;border-bottom:1px solid #e7eee5;font-size:14px}.method:nth-child(1) h3:before{content:"01"}.method:nth-child(2) h3:before{content:"02"}.method:nth-child(3) h3:before{content:"03"}.method:nth-child(4) h3:before{content:"04"}.method h3:before{display:inline-grid;place-items:center;width:25px;height:25px;margin-right:7px;border-radius:8px;background:var(--mint);color:var(--green);font-size:10px;vertical-align:middle}.method .field{margin-bottom:10px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:15px}.kpi{background:linear-gradient(145deg,#f5f9f3,#edf5ed);border:1px solid #e0eade;border-radius:14px;padding:14px}.kpi strong{display:block;font-size:clamp(18px,2vw,24px);line-height:1.25;overflow-wrap:anywhere;color:#245d3d;margin-top:5px}.kpi span{font-size:11px;color:var(--muted);font-weight:650;text-transform:uppercase;letter-spacing:.35px}.verdict{padding:13px 15px;border-radius:12px;background:#eaf4eb;border:1px solid #d5e8d6;color:#286343;font-weight:650;margin:13px 0;font-size:13px}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}th,td{padding:11px 10px;border-bottom:1px solid #e8eee6;text-align:right}th:first-child,td:first-child{text-align:left}th{color:#758277;font-size:10px;text-transform:uppercase;letter-spacing:.45px;background:#f7f9f5}th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}tr.best td{background:#edf6ed;font-weight:700;color:#245d3d}.table-wrap{overflow-x:auto;border-radius:10px}.muted{color:var(--muted);font-size:12px}.barrow{display:grid;grid-template-columns:140px 1fr 112px;gap:10px;align-items:center;margin:12px 0;font-size:12px}.track{height:11px;background:#edf1eb;border-radius:20px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#4b8a5d,#83ad72);border-radius:20px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}button{border:0;border-radius:10px;padding:11px 16px;background:linear-gradient(135deg,#236746,#398257);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 5px 12px #23674620;transition:transform .15s,filter .15s}button:hover{transform:translateY(-1px);filter:brightness(1.05)}button.secondary{background:#edf2eb;color:#355341;box-shadow:none;border:1px solid #dce6da}
+footer{color:#778378;font-size:11px;padding:5px 3px 22px;max-width:1000px}
+@media(max-width:900px){body{padding:18px 14px}.grid{grid-template-columns:1fr}.grid>section:first-child{display:block}.grid>section:first-child>.card:first-child,.grid>section:first-child>.card:nth-child(2){grid-column:auto;grid-row:auto}.grid>section:nth-child(2){grid-column:auto;display:block}.hero{padding:25px 23px}.card{padding:18px}}
+@media(max-width:560px){body{padding:12px}.hero{border-radius:16px;padding:22px 18px}.method-grid,.row{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.barrow{grid-template-columns:105px 1fr 85px;gap:7px;font-size:11px}.card{padding:15px;border-radius:14px}th,td{padding:9px 7px;font-size:11px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1>MycoSaxaul — To‘liq xarajat kalkulyatori</h1>
+<p>Oddiy ekish, mikoriza, yopiq ildiz tizimi va ikkala texnologiya birgalikda qo‘llanadigan usulni iqtisodiy jihatdan taqqoslang. Qiymatlarni o‘zingizdagi narxlar va tajriba natijalari bilan almashtiring.</p>
+</header>
+<div class="notice"><b>Muhim:</b> boshlang‘ich qiymatlar faqat namuna. Mikoriza va yopiq ildiz tizimining yashab qolishga ta’siri hali tajriba bilan o‘lchanmagan bo‘lsa, foizlarni ilmiy natija sifatida ko‘rsatmang. Kalkulyator natijasi kiritilgan taxminlarga bog‘liq.</div>
+<div class="grid">
+<section>
+<div class="card">
+<h2>1. Loyiha maydoni va umumiy xarajatlar</h2>
+<p class="muted">Bu bo‘limda barcha texnologiyalar uchun umumiy bo‘lgan maydon, ishchi kuchi, transport va yillik parvarish xarajatlari kiritiladi.</p>
+<div class="row">
+<div class="field"><label for="area">Maydon (gektar)</label><input id="area" type="number" min="0.01" step="0.1" value="1"></div>
+<div class="field"><label for="density">Ko‘chat / gektar</label><input id="density" type="number" min="1" step="1" value="1000"></div>
+</div>
+<div class="field"><label for="years">Hisob davri (yil)</label><input id="years" type="number" min="1" max="20" step="1" value="5"></div>
+<div class="field"><label for="land">Yer tayyorlash (UZS/gektar)</label><input id="land" type="number" min="0" step="1000" value="500000"></div>
+<div class="field"><label for="plant">Ekish mehnati (UZS/ko‘chat)</label><input id="plant" type="number" min="0" step="100" value="1000"></div>
+<div class="field"><label for="transport">Transport (UZS/ko‘chat)</label><input id="transport" type="number" min="0" step="100" value="500"></div>
+<div class="field"><label for="water">Sug‘orish (UZS/gektar/yil)</label><input id="water" type="number" min="0" step="1000" value="300000"></div>
+<div class="field"><label for="care">Parvarishlash (UZS/gektar/yil)</label><input id="care" type="number" min="0" step="1000" value="250000"></div>
+<div class="field"><label for="monitor">Monitoring (UZS/gektar/yil)</label><input id="monitor" type="number" min="0" step="1000" value="150000"></div>
+<p class="muted">Umumiy xarajatlar to‘rtta usulga teng qo‘llanadi. Agar biror usulda sug‘orish yoki parvarish xarajati boshqacha bo‘lsa, keyingi versiyada alohida kiritish mumkin.</p>
+</div>
+<div class="card">
+<h2>2. Har bir texnologiya uchun alohida xarajatlar</h2>
+<p class="muted">Barcha narxlar UZS hisobida. “Ko‘chat bazaviy tannarxi” urug‘/ko‘chat, pitomnikdagi asosiy yetishtirish va boshqa boshlang‘ich xarajatlarni o‘z ichiga olishi mumkin.</p>
+<div class="method-grid">
+<div class="method">
+<h3>1. Oddiy ekish</h3>
+<div class="field"><label>Bazaviy ko‘chat tannarxi / dona</label><input id="base0" type="number" min="0" value="12000"></div>
+<div class="field"><label>Qo‘shimcha konteyner / dona</label><input id="cont0" type="number" min="0" value="0"></div>
+<div class="field"><label>Substrat / dona</label><input id="sub0" type="number" min="0" value="0"></div>
+<div class="field"><label>Mikoriza / dona</label><input id="myco0" type="number" min="0" value="0"></div>
+<div class="field"><label>Yashab qolish (%)</label><input id="surv0" type="number" min="0.1" max="100" step="0.1" value="30"></div>
+</div>
+<div class="method">
+<h3>2. Faqat mikoriza</h3>
+<div class="field"><label>Bazaviy ko‘chat tannarxi / dona</label><input id="base1" type="number" min="0" value="12000"></div>
+<div class="field"><label>Qo‘shimcha konteyner / dona</label><input id="cont1" type="number" min="0" value="0"></div>
+<div class="field"><label>Substrat / dona</label><input id="sub1" type="number" min="0" value="0"></div>
+<div class="field"><label>Mikoriza / dona</label><input id="myco1" type="number" min="0" value="1000"></div>
+<div class="field"><label>Yashab qolish (%)</label><input id="surv1" type="number" min="0.1" max="100" step="0.1" value="40"></div>
+</div>
+<div class="method">
+<h3>3. Faqat yopiq ildiz</h3>
+<div class="field"><label>Bazaviy ko‘chat tannarxi / dona</label><input id="base2" type="number" min="0" value="12000"></div>
+<div class="field"><label>Yopiq ildiz konteyneri / dona</label><input id="cont2" type="number" min="0" value="2500"></div>
+<div class="field"><label>Substrat / dona</label><input id="sub2" type="number" min="0" value="1500"></div>
+<div class="field"><label>Mikoriza / dona</label><input id="myco2" type="number" min="0" value="0"></div>
+<div class="field"><label>Yashab qolish (%)</label><input id="surv2" type="number" min="0.1" max="100" step="0.1" value="45"></div>
+</div>
+<div class="method">
+<h3>4. Yopiq ildiz + mikoriza</h3>
+<div class="field"><label>Bazaviy ko‘chat tannarxi / dona</label><input id="base3" type="number" min="0" value="12000"></div>
+<div class="field"><label>Yopiq ildiz konteyneri / dona</label><input id="cont3" type="number" min="0" value="2500"></div>
+<div class="field"><label>Substrat / dona</label><input id="sub3" type="number" min="0" value="1500"></div>
+<div class="field"><label>Mikoriza / dona</label><input id="myco3" type="number" min="0" value="1000"></div>
+<div class="field"><label>Yashab qolish (%)</label><input id="surv3" type="number" min="0.1" max="100" step="0.1" value="55"></div>
+</div>
+</div>
+<div class="actions"><button onclick="calculate()">Hisoblash</button><button class="secondary" onclick="resetDemo()">Namuna qiymatlarni tiklash</button></div>
+</div>
+</section>
+<section>
+<div class="card">
+<h2>3. Natijalar — tanlangan maydon uchun</h2>
+<div class="kpis">
+<div class="kpi"><span>Ko‘chatlar soni</span><strong id="n">—</strong></div>
+<div class="kpi"><span>Hisob davri</span><strong id="period">—</strong></div>
+<div class="kpi"><span>Eng arzon 1 ta yashab qolgan ko‘chat</span><strong id="bestcost">—</strong></div>
+<div class="kpi"><span>Eng tejamkor usul</span><strong id="bestname">—</strong></div>
+</div>
+<div id="verdict" class="verdict">Qiymatlarni kiriting va hisoblang.</div>
+<div class="table-wrap"><table><thead><tr><th>Ekish usuli</th><th>Jami xarajat</th><th>Yashab qolgan</th><th>1 ta tirik daraxt tannarxi</th></tr></thead><tbody id="results"></tbody></table></div>
+<h3>Bir tirik daraxt tannarxi taqqoslanishi</h3><div id="bars"></div>
+<p class="muted">Jami xarajat = ko‘chat va texnologiya xarajati + yer tayyorlash + ekish mehnati + transport + hisob davridagi sug‘orish, parvarish va monitoring.</p>
+</div>
+<div class="card">
+<h2>4. 1, 3 va 5 yillik prognoz</h2>
+<p class="muted">Bu jadvalda har yili parvarish xarajatlari qo‘shib boriladi. Yashab qolish foizi esa kiritilgan bitta qiymat sifatida o‘zgarmas deb olinadi; real monitoring natijasi emas.</p>
+<div class="table-wrap"><table><thead><tr><th>Davr</th><th>Oddiy ekish</th><th>Faqat mikoriza</th><th>Faqat yopiq ildiz</th><th>Yopiq ildiz + mikoriza</th></tr></thead><tbody id="forecast"></tbody></table></div>
+</div>
+<div class="card">
+<h2>5. Break-even — qachon xarajat o‘zini oqlaydi?</h2>
+<p class="muted">Har bir qo‘shimcha texnologiya oddiy ekishga nisbatan tirik daraxt tannarxini pasaytirishi uchun zarur minimal yashab qolish foizi.</p>
+<div class="table-wrap"><table><thead><tr><th>Usul</th><th>Kerakli yashab qolish (%)</th><th>Kiritilgan qiymat (%)</th><th>Natija</th></tr></thead><tbody id="breakEven"></tbody></table></div>
+</div>
+</section>
+</div>
+<div class="card" id="historyCard">
+<h2>6. Hisob-kitoblarni saqlash</h2>
+<p class="muted">Hisob nomini kiriting va joriy kiritilgan qiymatlar hamda natijalarni server bazasiga saqlang.</p>
+<div class="row"><div class="field"><label for="saveName">Hisob nomi</label><input id="saveName" type="text" maxlength="100" placeholder="Masalan: 1 gektar — tajriba maydoni"></div><div class="field" style="display:flex;align-items:end"><button onclick="saveCalculation()">Hisobni saqlash</button></div></div>
+<div id="savedList" class="muted">Saqlangan hisoblar yuklanmoqda...</div>
+</div>
+<footer>MycoSaxaul kalkulyatori — dastlabki iqtisodiy baholash vositasi. Barcha boshlang‘ich raqamlar namunaviy; rasmiy taqdimot yoki grant arizasida ishlatishdan oldin yetkazib beruvchi takliflari, pitomnik narxlari va dala tajribasi bilan tasdiqlang.</footer>
+</div>
+<script>
+const ids=['area','density','years','land','plant','transport','water','care','monitor','base0','cont0','sub0','myco0','surv0','base1','cont1','sub1','myco1','surv1','base2','cont2','sub2','myco2','surv2','base3','cont3','sub3','myco3','surv3'];
+const names=['Oddiy ekish','Faqat mikoriza','Faqat yopiq ildiz','Yopiq ildiz + mikoriza'];
+const fmt=n=>Number.isFinite(n)?Math.round(n).toLocaleString('uz-UZ')+' UZS':'—';
+const num=id=>Number(document.getElementById(id).value);
+async function calculate(){
+ const area=num('area'), density=num('density'), years=num('years');
+ if(!(area>0&&density>0&&years>=1&&years<=20)){alert('Maydon, ko‘chat soni va yil qiymatlarini tekshiring.');return}
+ const payload={area,density,years,shared:{land:num('land'),plant:num('plant'),transport:num('transport'),water:num('water'),care:num('care'),monitor:num('monitor')},
+ methods:Array.from({length:4},(_,j)=>({base:num('base'+j),container:num('cont'+j),substrate:num('sub'+j),mycorrhiza:num('myco'+j),survival:num('surv'+j)}))};
+ try{
+  const response=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await response.json();
+  if(!response.ok) throw new Error(data.error||'Hisoblashda xatolik');
+  renderResults(data);
+ }catch(err){alert('Server bilan bog‘lanib bo‘lmadi: '+err.message)}
+}
+function renderResults(data){
+ const rows=data.rows, best=data.best;
+ document.getElementById('n').textContent=Math.round(data.totalSeedlings).toLocaleString('uz-UZ');
+ document.getElementById('period').textContent=data.years+' yil';
+ document.getElementById('bestcost').textContent=fmt(best.cost);
+ document.getElementById('bestname').textContent=names[best.index];
+ document.getElementById('verdict').textContent=names[best.index]+' — kiritilgan taxminlar bo‘yicha eng past tirik daraxt tannarxiga ega. Bu natija dala tajribasi bilan tasdiqlanishi kerak.';
+ document.getElementById('results').innerHTML=rows.map(r=>`<tr class="${r.index===best.index?'best':''}"><td>${names[r.index]}</td><td>${fmt(r.total)}</td><td>${Math.round(r.survivors).toLocaleString('uz-UZ')} ta (${r.survival}%)</td><td>${fmt(r.cost)}</td></tr>`).join('');
+ const max=Math.max(...rows.map(r=>r.cost));
+ document.getElementById('bars').innerHTML=rows.map(r=>`<div class="barrow"><span>${names[r.index]}</span><div class="track"><div class="fill" style="width:${r.cost/max*100}%"></div></div><b>${fmt(r.cost)}</b></div>`).join('');
+ document.getElementById('forecast').innerHTML=data.forecast.map(row=>`<tr><td>${row.years} yil</td>${row.costs.map(c=>`<td>${fmt(c)}</td>`).join('')}</tr>`).join('');
+ document.getElementById('breakEven').innerHTML=data.breakEven.map(r=>`<tr><td>${names[r.index]}</td><td>${r.required.toFixed(1)}%</td><td>${r.actual.toFixed(1)}%</td><td style="color:${r.ok?'#28734d':'#a6422b'};font-weight:700">${r.ok?'O‘zini oqlaydi':'Hozircha oqlamaydi'}</td></tr>`).join('');
+}
+
+function resetDemo(){const vals={area:1,density:1000,years:5,land:500000,plant:1000,transport:500,water:300000,care:250000,monitor:150000,base0:12000,cont0:0,sub0:0,myco0:0,surv0:30,base1:12000,cont1:0,sub1:0,myco1:1000,surv1:40,base2:12000,cont2:2500,sub2:1500,myco2:0,surv2:45,base3:12000,cont3:2500,sub3:1500,myco3:1000,surv3:55};Object.entries(vals).forEach(([k,v])=>document.getElementById(k).value=v);calculate()}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+calculate();
+
+async function saveCalculation(){
+ const name=document.getElementById('saveName').value.trim();
+ if(!name){alert('Hisob nomini kiriting.');return}
+ const payload={name,inputs:Object.fromEntries(ids.map(id=>[id,num(id)]))};
+ try{const r=await fetch('/api/saved',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Saqlanmadi');document.getElementById('saveName').value='';loadSaved();alert('Hisob muvaffaqiyatli saqlandi.')}
+ catch(e){alert('Saqlashda xatolik: '+e.message)}
+}
+async function deleteSaved(id){
+ if(!confirm('Ushbu hisobni o‘chirasizmi?'))return;
+ try{const r=await fetch('/api/saved/'+encodeURIComponent(id),{method:'DELETE'});if(!r.ok)throw new Error('O‘chirilmadi');loadSaved()}catch(e){alert(e.message)}
+}
+async function loadSaved(){
+ const box=document.getElementById('savedList');
+ try{const r=await fetch('/api/saved');const items=await r.json();if(!items.length){box.textContent='Hozircha saqlangan hisob yo‘q.';return}
+ box.innerHTML='<div class="table-wrap"><table><thead><tr><th>Hisob nomi</th><th>Sana</th><th>Amal</th></tr></thead><tbody>'+items.map(x=>`<tr><td>${escapeHtml(x.name)}</td><td>${new Date(x.createdAt).toLocaleString('uz-UZ')}</td><td><button class="secondary" onclick="deleteSaved('${x.id}')">O‘chirish</button></td></tr>`).join('')+'</tbody></table></div>';
+ }catch(e){box.textContent='Saqlangan hisoblarni yuklab bo‘lmadi.'}
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+loadSaved();
+</script>
+</body>
+</html>
